@@ -2,8 +2,6 @@
 
 # VECTORIZATION 
 
-echo "=== AGGRESSIVE VECTORIZATION PIPELINE ==="
-
 # Stage 1: Initial cleanup
 echo "Stage 1: Initial canonicalization..."
 mlir-opt alexnet_linalg.mlir \
@@ -122,10 +120,3 @@ llc -O3 \
   -mattr=+avx2,+fma,+f16c \
   alexnet_vectorized.bc -o alexnet_vectorized.s
 
-echo "=== AGGRESSIVE VECTORIZATION COMPLETE ==="
-echo ""
-echo "To compile and test:"
-echo "  clang -march=native -fPIC -no-pie test.c alexnet_vectorized.s \\"
-echo "    -L/data/anubhav/llvm-project/build/lib \\"
-echo "    -lmlir_c_runner_utils -lmlir_runner_utils -lm \\"
-echo "    -o alexnet_test"
