@@ -120,3 +120,4 @@ llc -O3 \
   -mattr=+avx2,+fma,+f16c \
   alexnet_vectorized.bc -o alexnet_vectorized.s
 
+echo "Pipeline completed. Generated files: alexnet_vectorized.ll, alexnet_vectorized.bc, alexnet_vectorized.s"
