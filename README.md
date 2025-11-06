@@ -146,12 +146,12 @@ python -m pip install -e .
 
 ### Pipeline Execution
 
-Each experiment folder contains a complete pipeline. Here's how to run them:
+Each folder contains a complete pipeline. Here's how to run them:
 
-#### Experiment 1 - Baseline Pipeline
+#### AlexNet_to_LLVM - Baseline Pipeline
 
 ```bash
-cd experiment1
+cd AlexNet_to_LLVM
 
 # Run the MLIR optimization pipeline
 ./Pipeline.sh
@@ -165,10 +165,10 @@ cd experiment1
 # - alexnet.o (object file)
 ```
 
-#### Experiment 2 - Alternative Ordering
+#### Optimized_Pipeline_1 - Alternative Ordering
 
 ```bash
-cd experiment2
+cd Optimized_Pipeline_1
 
 # Run alternative pipeline
 ./Pipeline.sh
@@ -176,10 +176,10 @@ cd experiment2
 # Generates same output files but with different optimization ordering
 ```
 
-#### Experiment 3 - Third Variant
+#### Optimized_Pipeline_2 - Third Variant
 
 ```bash
-cd experiment3
+cd Optimized_Pipeline_2
 
 # Run third variant
 ./Pipeline.sh
@@ -334,20 +334,20 @@ llc -filetype=obj -relocation-model=pic alexnet.ll -o alexnet.o
 Run all three experiments and compare:
 
 ```bash
-# Experiment 1
-cd experiment1
+# AlexNet_to_LLVM-IR
+cd AlexNet_to_LLVM-IR
 ./Pipeline.sh
 gcc -march=native -O2 main.c alexnet.o -lmlir_c_runner_utils -lmlir_runner_utils -lm -o exp1_infer
 time ./exp1_infer ../test_images/dog.jpg > exp1_results.txt
 
-# Experiment 2
-cd ../experiment2
+# Optimized_Pipeline_1 
+cd ../Optimized_Pipeline_1
 ./Pipeline.sh
 gcc -march=native -O2 main.c alexnet.o -lmlir_c_runner_utils -lmlir_runner_utils -lm -o exp2_infer
 time ./exp2_infer ../test_images/dog.jpg > exp2_results.txt
 
-# Experiment 3
-cd ../experiment3
+# Optimized_Pipeline_2
+cd ../Optimized_Pipeline_1
 ./Pipeline.sh
 gcc -march=native -O2 main.c alexnet.o -lmlir_c_runner_utils -lmlir_runner_utils -lm -o exp3_infer
 
@@ -480,7 +480,7 @@ gcc -v main.c alexnet.o -lmlir_c_runner_utils -lmlir_runner_utils -lm -o alexnet
 
 
 
-## Additional Resources
+## Reference Resources
 
 - [MLIR Documentation](https://mlir.llvm.org/)
 - [torch-mlir Documentation](https://github.com/llvm/torch-mlir)
