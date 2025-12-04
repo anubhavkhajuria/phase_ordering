@@ -89,14 +89,26 @@ export PATH=/path/to/clang+llvm-22.0.0/bin:$PATH
 # Option 2: Build from source
 git clone https://github.com/llvm/llvm-project.git
 cd llvm-project
-git checkout llvmorg-22.0.0
 mkdir build && cd build
+
 cmake -G Ninja ../llvm \
-   -DLLVM_ENABLE_PROJECTS="mlir;clang" \
-   -DLLVM_TARGETS_TO_BUILD="X86;NVPTX" \
-   -DCMAKE_BUILD_TYPE=Release \
-   -DLLVM_ENABLE_ASSERTIONS=ON
-ninja
+  -DLLVM_ENABLE_PROJECTS="mlir" \
+  -DCMAKE_BUILD_TYPE=Release \
+  -DLLVM_TARGETS_TO_BUILD="host" \
+  -DMLIR_ENABLE_BINDINGS_PYTHON=ON \
+  -DPython3_EXECUTABLE=$(which python3) \
+  -DCMAKE_INSTALL_PREFIX=$HOME/llvm-install
+
+ninja install
+
+export MLIR_HOME=$HOME/llvm-install
+export PATH=$MLIR_HOME/bin:$PATH
+export LD_LIBRARY_PATH=$MLIR_HOME/lib:$LD_LIBRARY_PATH
+export PYTHONPATH=$MLIR_HOME/python_packages/mlir_core:$PYTHONPATH
+
+#Verify it using this command
+which mlir-opt
+
 ```
 
 ### Installing torch-mlir
@@ -108,8 +120,28 @@ pip install torch-mlir
 # Or from source
 git clone https://github.com/llvm/torch-mlir
 cd torch-mlir
-python -m pip install -r requirements.txt
-python -m pip install -e .
+
+git submodule update --init --recursive
+
+# Start from a clean build dir
+rm -rf build
+mkdir build
+cd build
+
+# Configure: point to llvm-project/llvm, and attach torch-mlir as an external project
+cmake -GNinja ../externals/llvm-project/llvm \
+  -DLLVM_ENABLE_PROJECTS="mlir" \
+  -DLLVM_EXTERNAL_PROJECTS="torch-mlir;stablehlo" \
+  -DLLVM_EXTERNAL_TORCH_MLIR_SOURCE_DIR=../ \
+  -DLLVM_EXTERNAL_STABLEHLO_SOURCE_DIR=../externals/stablehlo \
+  -DCMAKE_BUILD_TYPE=Release \
+  -DPython3_EXECUTABLE=$(which python) \
+  -DLLVM_ENABLE_BINDINGS_PYTHON=ON \
+  -DLLVM_TARGETS_TO_BUILD=host
+
+# Build torch-mlir Python modules
+cmake --build . --target TorchMLIRPythonModules -j$(sysctl -n hw.logicalcpu)
+
 ```
 
 ## Installation
