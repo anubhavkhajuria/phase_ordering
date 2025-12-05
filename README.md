@@ -228,21 +228,11 @@ After running the pipeline, compile and execute the inference:
 clang -march=native main.c alexnet.o    -lmlir_c_runner_utils     -lmlir_runner_utils -no-pie     -lm     
 -o alexnet_infer
 
-# Method 2: Using GCC (simpler, if MLIR runtime is in system path)
+# Method 2: Using GCC and if Clang has some issues in finding openmp 
 gcc -march=native -O2 main.c alexnet.o \
     -lmlir_c_runner_utils \
     -lmlir_runner_utils \
     -lm \
-    -o alexnet_infer
-
-# Method 3: Using GCC with explicit library path
-gcc -march=native -O2 main.c alexnet.o \
-    -L/usr/local/lib \
-    -L/path/to/llvm-project/build/lib \
-    -lmlir_c_runner_utils \
-    -lmlir_runner_utils \
-    -lm \
-    -Wl,-rpath,/path/to/llvm-project/build/lib \
     -o alexnet_infer
 
 # Run inference on an image
