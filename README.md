@@ -46,6 +46,7 @@ Order C: Linalg-to-Loops → Canonicalize → Bufferize → Lower-to-LLVM
    ```bash
    # Check version
    mlir-opt --version
+   
    # Should show: MLIR version 22.0 or higher
    ```
 
@@ -63,7 +64,7 @@ Order C: Linalg-to-Loops → Canonicalize → Bufferize → Lower-to-LLVM
    gcc --version
    ```
 
-4. **LLVM Static Compiler (llc)**
+4. **LLVM Static Compiler (llc 22.0 or higher)**
    ```bash
    llc --version
    ```
@@ -72,7 +73,13 @@ Order C: Linalg-to-Loops → Canonicalize → Bufferize → Lower-to-LLVM
    ```bash
    clang --version
    ```
-
+6. **opt 22.0 or higher**
+   ```bash
+   # Check version
+   opt --version
+   
+   # Should show: version 22.0 or higher
+   ```
 ### Required Files
 - `stb_image.h` - Single-header image loading library
 - `stb_image_resize2.h` - Image resizing library
@@ -81,12 +88,7 @@ Order C: Linalg-to-Loops → Canonicalize → Bufferize → Lower-to-LLVM
 ### Installing LLVM/MLIR 22.0
 
 ```bash
-# Option 1: Using official LLVM releases
-wget https://github.com/llvm/llvm-project/releases/download/llvmorg-22.0.0/clang+llvm-22.0.0-x86_64-linux-gnu-ubuntu-22.04.tar.xz
-tar xf clang+llvm-22.0.0-x86_64-linux-gnu-ubuntu-22.04.tar.xz
-export PATH=/path/to/clang+llvm-22.0.0/bin:$PATH
 
-# Option 2: Build from source
 git clone https://github.com/llvm/llvm-project.git
 cd llvm-project
 mkdir build && cd build
