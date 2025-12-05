@@ -109,6 +109,7 @@ echo "Stage 12: Translate to LLVM IR..."
 mlir-translate --mlir-to-llvmir step11_llvm_dialect.mlir > alexnet.ll
 
 # Stage 13: LLVM optimizations
+#ensure that the opt, and llc are of the same version.  
 echo "Stage 13: LLVM optimization passes..."
 opt -passes="loop-vectorize,slp-vectorizer,load-store-vectorizer" \
   alexnet.ll -o alexnet_opt.bc
