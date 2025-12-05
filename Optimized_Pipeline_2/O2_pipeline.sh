@@ -105,6 +105,7 @@ echo "Stage 12: Translate to LLVM IR..."
 mlir-translate --mlir-to-llvmir vec_step11_llvm.mlir > alexnet_vectorized.ll
 
 # Stage 13: LLVM optimizations with aggressive vectorization
+#At this step, please ensure that the opt version matches your llvm version
 echo "Stage 13: LLVM optimizations..."
 opt --passes="default<O3>,loop-vectorize,slp-vectorizer,load-store-vectorizer" \
   alexnet_vectorized.ll -o alexnet_vectorized.bc
@@ -118,6 +119,8 @@ llc -O3 \
   -enable-unsafe-fp-math \
   -fp-contract=fast \
   -mattr=+avx2,+fma,+f16c \
-  alexnet_vectorized.bc -o alexnet_vectorized.s
+  alexnet_vectorized.bc -o alexnet_vectorized.s  
+#.s can be further lowered to object file for better output
 
 echo "Pipeline completed. Generated files: alexnet_vectorized.ll, alexnet_vectorized.bc, alexnet_vectorized.s"
+echo "Use this command to run the code: clang -march=native main.c alexnet.o    -lmlir_c_runner_utils     -lmlir_runner_utils -no-pie     -lm     -o alexnet_infer -O3"
