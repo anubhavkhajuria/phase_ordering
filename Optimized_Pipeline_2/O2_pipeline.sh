@@ -123,4 +123,6 @@ llc -O3 \
 #.s can be further lowered to object file for better output
 
 echo "Pipeline completed. Generated files: alexnet_vectorized.ll, alexnet_vectorized.bc, alexnet_vectorized.s"
-echo "Use this command to run the code: clang -march=native main.c alexnet.o    -lmlir_c_runner_utils     -lmlir_runner_utils -no-pie     -lm     -o alexnet_infer -O3"
+echo "Use this command to run the code:  gcc -march=native -O3 main.c alexnet.o     -L/usr/local/lib"
+echo "-L/path/to/llvm-project/build/lib     -lmlir_c_runner_utils     -lmlir_runner_utils"     
+echo "-lm     -Wl,-rpath,/path/to/llvm-project/build/lib     -o alexnet_infer -fopenmp""
