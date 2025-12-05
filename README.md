@@ -223,12 +223,8 @@ After running the pipeline, compile and execute the inference:
 
 ```bash
 # Method 1: Using Clang (recommended for MLIR runtime)
-clang -march=native main.c alexnet.o \
-    -L/path/to/llvm-project/build/lib \
-    -lmlir_c_runner_utils \
-    -lmlir_runner_utils \
-    -lm \
-    -o alexnet_infer
+clang -march=native main.c alexnet.o    -lmlir_c_runner_utils     -lmlir_runner_utils -no-pie     -lm     
+-o alexnet_infer
 
 # Method 2: Using GCC (simpler, if MLIR runtime is in system path)
 gcc -march=native -O2 main.c alexnet.o \
