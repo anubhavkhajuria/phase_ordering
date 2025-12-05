@@ -110,8 +110,7 @@ mlir-translate --mlir-to-llvmir step11_llvm_dialect.mlir > alexnet.ll
 
 # Stage 13: LLVM optimizations
 echo "Stage 13: LLVM optimization passes..."
-opt 
-  -passes="loop-vectorize,slp-vectorizer,load-store-vectorizer" \
+opt -passes="loop-vectorize,slp-vectorizer,load-store-vectorizer" \
   alexnet.ll -o alexnet_opt.bc
 
 # Stage 14: Convert to assembly or object file
