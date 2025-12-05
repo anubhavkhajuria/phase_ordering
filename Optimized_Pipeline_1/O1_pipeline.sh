@@ -123,6 +123,6 @@ llc -O3 \
   alexnet_opt.bc -o alexnet.s
 
 # Optional: Create object file
-# llc -O3 -march=x86-64 -mcpu=native -filetype=obj alexnet_opt.bc -o alexnet.o
-
+llc -O3 -march=x86-64 -mcpu=native -filetype=obj alexnet_opt.bc -o alexnet.o
+echo "Use this command to run the code: clang -march=native main.c alexnet.o    -lmlir_c_runner_utils     -lmlir_runner_utils -no-pie     -lm     -o alexnet_infer -O3"
 echo "Compilation complete!"
